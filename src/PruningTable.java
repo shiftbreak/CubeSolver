@@ -75,25 +75,8 @@ public class PruningTable implements Serializable{
 
 
 
-	public void setReached(int hPlace, int vPlace){
-		long ww = (width*vPlace + hPlace);
-		int w = (int) (ww/8);
-		int window = list[w];
-		list[w] = (byte) (window | computeMask(ww));
 
-	}
-	public boolean getReached(int hPlace, int vPlace){
-		long ww = (width*vPlace + hPlace);
-		int w = (int) (ww/8);
-		int window = list[w];
-		int mask = computeMask(ww);
-		if ((window & mask) == mask){
-			return true;
-		}else{
-			return false;
-		}
 
-	}
 
 	public static int computeMask(long ww){
 		int bit = (int) (ww%8);
@@ -123,29 +106,48 @@ public class PruningTable implements Serializable{
 	}
 
 
+	private void st(long windowplace){
+
+		int w = (int) (windowplace/8);
+		int window = list[w];
+		list[w] = (byte) (window | computeMask(windowplace));
+	}
 
 	public void setReached(int hPlace, int vPlace, int dPlace){  // EO  CO  UD
 		long ww = ((long)(width*height)*dPlace + width*vPlace + hPlace);
-		int w = (int) (ww/8);
-		int window = list[w];
-		list[w] = (byte) (window | computeMask(ww));
-
-	
+		st(ww);
 	}
-	public boolean getReached(int hPlace, int vPlace, int dPlace){   // EO  CO  UD
-		long ww = ((long)(width*height)*dPlace + width*vPlace + hPlace);
-		int w = (int) (ww/8);
+
+	public void setReached(int hPlace, int vPlace){
+		long ww = (width*vPlace + hPlace);
+		st(ww);
+	}
+
+	private boolean gt(long windowplace){
+		int w = (int) (windowplace/8);
 		int window = list[w];
 
 
-		int mask = computeMask(ww);
+		int mask = computeMask(windowplace);
 		if ((window & mask) == mask){
 			return true;
 		}else{
 			return false;
 		}
+	}
+
+	public boolean getReached(int hPlace, int vPlace, int dPlace){   // EO  CO  UD
+		long ww = ((long)(width*height)*dPlace + width*vPlace + hPlace);
+		return gt(ww);
 
 	}
+
+	public boolean getReached(int hPlace, int vPlace){
+		long ww = (width*vPlace + hPlace);
+		return gt(ww);
+
+	}
+
 	public void printTable(){
 		for(int i=0;i<list.length;i++){
 			if(list[i]<0){
