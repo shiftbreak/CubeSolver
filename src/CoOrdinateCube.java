@@ -54,8 +54,8 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 	private int[][] UDSlicePhaseTwoMovTable;
 	private int[][] EPPhaseTwoMovTable;
 	private byte[] setupmoves;
-	private OldPruningTable P1PrunTable;
-	private OldPruningTable P2PrunTable;
+	private PruningTable P1PrunTable;
+	private PruningTable P2PrunTable;
 
 
 
@@ -218,7 +218,7 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 		int height = 2187;  // CO
 		int depth = 495;  // UD
 	
-		P1PrunTable = new OldPruningTable(width,height,depth);
+		P1PrunTable = new PruningTable(width,height,depth);
 		System.out.println("0%");
 
 		CoOrdinateCube c = new CoOrdinateCube(0,0,0,0,0,0,COMovTable,EOMovTable,UDSliceMovTable, UDSlicePhaseTwoMovTable, CPMovTable, EPPhaseTwoMovTable);
@@ -272,7 +272,7 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 	public  void generatePhase2Prun(){
 		int width = 40320;  // CP
 		int height = 40320;  // EP
-		P2PrunTable = new OldPruningTable(width,height);
+		P2PrunTable = new PruningTable(width,height);
 		System.out.println("0%");
 		CoOrdinateCube c = new CoOrdinateCube(0,0,0,0,0,0,COMovTable,EOMovTable,UDSliceMovTable, UDSlicePhaseTwoMovTable, CPMovTable, EPPhaseTwoMovTable);
 		int progress = 1;
@@ -531,7 +531,7 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 				int width = 2048;  // EO
 				int height = 2187;  // CO
 				int depth = 495;  // UD
-				P1PrunTable = new OldPruningTable(table,width,height,depth);
+				P1PrunTable = new PruningTable(table,width,height,depth);
 			}else{
 				System.err.println(a.getClass() + " is not an instance of Pruning Table!");
 				System.exit(0);
@@ -559,7 +559,7 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 				byte[] table = (byte[])a;;;
 				int width = 40320;  // CP
 				int height = 40320;  // EP
-				P2PrunTable = new OldPruningTable(table,width,height);
+				P2PrunTable = new PruningTable(table,width,height);
 			}else{
 				System.err.println(a.getClass() + " is not an instance of Pruning Table!");
 				System.exit(0);
@@ -575,7 +575,7 @@ public class CoOrdinateCube implements TwoPhaseLogicalCube{
 		System.out.println("Done!");
 	}
 	
-	public void writePruningTableToFile(String filename, OldPruningTable p){
+	public void writePruningTableToFile(String filename, PruningTable p){
 		System.out.println("Started writing " + filename + " to file");
 		try {
 			byte[] table = p.getTable();
